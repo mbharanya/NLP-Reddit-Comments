@@ -53,19 +53,52 @@ ss=nt.sent_tokenize(text)
 tokenized_sent=[nt.word_tokenize(sent) for sent in ss]
 pos_sentences=[nltk.pos_tag(sent) for sent in tokenized_sent]
 
-pronouns = list(filter(lambda tuple: tuple[1] in ["PRP", "POS", "PRP$"], reduce(list.__add__, pos_sentences)))
-# print(reduce(list.__add__, pos_sentences))
+def getPronounStats():
+    pronouns = list(filter(lambda tuple: tuple[1] in ["PRP", "POS", "PRP$"], reduce(list.__add__, pos_sentences)))
+    # print(reduce(list.__add__, pos_sentences))
 
-personal = 0
-possessive = 0
-for pronoun in pronouns:
-    pType = pronoun[1]
-    if pType in ["POS", "PRP$"]:
-        possessive += 1
-    elif pType == "PRP":
-        personal +=1
-        
+    personal = 0
+    possessive = 0
+    for pronoun in pronouns:
+        pType = pronoun[1]
+        if pType in ["POS", "PRP$"]:
+            possessive += 1
+        elif pType == "PRP":
+            personal +=1
+            
 
-print(pronouns)
-print("Personal " + str(personal))
-print("Possesive " + str(possessive))
+    # print(pronouns)
+    print("Personal " + str(personal))
+    print("Possessive " + str(possessive))
+
+def getWordStats():
+    flatLowerCase = map(str.lower, reduce(list.__add__, tokenized_sent))
+
+    i = 0
+    you = 0
+    she = 0
+    it = 0
+    he = 0
+    they = 0
+    we = 0
+
+    for word in flatLowerCase:
+        if word == "i": i +=1
+        if word == "you": you +=1
+        if word == "she": she +=1
+        if word == "it": it +=1
+        if word == "he": he +=1
+        if word == "they": they +=1
+        if word == "we": we +=1
+
+    print("i: " + str(i))
+    print("you: " + str(you))
+    print("she: " + str(she))
+    print("it: " + str(it))
+    print("he: " + str(he))
+    print("they: " + str(they))
+    print("we: " + str(we))
+
+
+getPronounStats()
+getWordStats()
